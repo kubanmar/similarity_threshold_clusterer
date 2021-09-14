@@ -1,0 +1,1 @@
+This package provides a clustering method for finding small clusters in a high dimensional descriptor space.

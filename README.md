@@ -2,4 +2,4 @@ This package provides a clustering method for finding small compact clusters in 
 
 The algorithm is used in the publication: "Density-of-states similarity descriptor for unsupervised learning from materials data" [1] by Martin Kuban, Santiago Rigamonti, Markus Scheidgen, and Claudia Draxl.
 
-    [1] https://arxiv.org/abs/2201.02187
+[1] https://arxiv.org/abs/2201.02187

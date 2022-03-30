@@ -169,7 +169,7 @@ class ThresholdClusterer:
             self: *ThresholdClusterer*
                 The return value of this function is the object itself.
         """
-        self._similarity_matrix = list(X)
+        self._similarity_matrix = X.tolist() if isinstance(X, np.ndarray) else list(X)
         self._initial_matrix_size = len(X)
         self._matrix_row_identifier = list(range(self._initial_matrix_size))
         self.purge_orphans()

@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="threshold_clusterer"
+version="1.0.1"
+description = "A clustering method for small clusters in high dimensional descriptor spaces."
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    {name="Martin Kuban et al."}
+]
+maintainers = [
+    {name="Martin Kuban", email="kuban@physik.hu-berlin.de"}
+]
+requires-python = ">= 3.6"
+dependencies = [
+    "numpy"
+]
+license = {file = "LICENSE"}
+classifiers=[
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux"
+]
+
+[project.urls]
+Source = "https://github.com/kubanmar/similarity_threshold_clusterer"
+Issues = "https://github.com/kubanmar/similarity_threshold_clusterer/issues"
+
+[tool.setuptools.packages.find]
+where=["."]
+include=["threshold_clusterer*"]
+exclude=["tests*", "*venv"]

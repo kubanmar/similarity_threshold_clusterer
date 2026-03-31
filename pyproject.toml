@@ -17,10 +17,9 @@ requires-python = ">= 3.6"
 dependencies = [
     "numpy"
 ]
-license = {file = "LICENSE"}
+license ="Apache-2.0"
 classifiers=[
     "Programming Language :: Python :: 3.10",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: POSIX :: Linux"
 ]
 
@@ -29,6 +28,5 @@ Source = "https://github.com/kubanmar/similarity_threshold_clusterer"
 Issues = "https://github.com/kubanmar/similarity_threshold_clusterer/issues"
 
 [tool.setuptools.packages.find]
-where=["."]
-include=["threshold_clusterer*"]
-exclude=["tests*", "*venv"]
+where=["src"]
+include=["threshold_clusterer"]

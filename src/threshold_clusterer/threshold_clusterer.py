@@ -2,12 +2,13 @@ import numpy as np
 
 class ThresholdClusterer:
     
-    def __init__(self, threshold = 0.8) -> None:
+    def __init__(self, threshold: float = 0.8, verbose: bool = False) -> None:
         self.threshold = threshold
         self.clusters = []
         self._similarity_matrix = None
         self._matrix_row_identifier = None
         self._initial_matrix_size = None
+        self.verbose = verbose
         
     def get_neighbors_by_threshold(self, matrix: list, 
                                          identifier_list: list, 
@@ -147,7 +148,7 @@ class ThresholdClusterer:
         values = [self._similarity_matrix[cluster_center_index][index] for index in cluster_member_indices]
         return float(np.mean(values))
     
-    def fit(self, X, verbose = True) -> object:
+    def fit(self, X) -> object:
         """
         Fit clusters from similarity matrix. Cluster labels can be accessed by the `labels_` property.
         Orphans are labelled as *-1*.
@@ -156,13 +157,6 @@ class ThresholdClusterer:
         
             X: *list*[*list*]
                 Input similarity matrix
-                
-        **Keyword arguments**
-        
-            verbose: *bool*
-                Write fitting progress in terms of remaining entries to STDOUT.
-                
-                Default value is `True`.
                 
         **Returns**
             
@@ -174,9 +168,11 @@ class ThresholdClusterer:
         self._matrix_row_identifier = list(range(self._initial_matrix_size))
         self.purge_orphans()
         neighbors_dict = self.get_neighbor_dict()
-        if verbose:
+        if self.verbose:
             print(len(neighbors_dict), end = '\r')
         while True: # Runtime can not be estimated
+            if len(neighbors_dict) == 0:
+                raise ValueError(f'No clusters found, decrease threshold. Currently using: {self.threshold}.')
             largest_cluster = max(neighbors_dict.items(), key = lambda x: len(x[1]))
             overlaps_with_largest = [cluster for cluster in neighbors_dict.items() if self.get_cluster_overlap(largest_cluster, cluster) > 0] 
             competitors = list(filter(lambda x: len(x[1]) == len(largest_cluster[1]), overlaps_with_largest))
@@ -184,8 +180,9 @@ class ThresholdClusterer:
             self.clusters.append(best)
             self.purge_clustered_entries()
             neighbors_dict = self.get_neighbor_dict()
-            print('                 ', end = '\r')
-            print(len(neighbors_dict), end = '\r')
+            if self.verbose:
+                print('                 ', end = '\r')
+                print(len(neighbors_dict), end = '\r')
             if len(neighbors_dict) == 0:
                 break
         return self

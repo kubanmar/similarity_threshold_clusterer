@@ -4,11 +4,8 @@ class ThresholdClusterer:
     
     def __init__(self, threshold: float = 0.8, verbose: bool = False) -> None:
         self.threshold = threshold
-        self.clusters = []
-        self._similarity_matrix = None
-        self._matrix_row_identifier = None
-        self._initial_matrix_size = None
         self.verbose = verbose
+        self._init_clusterer()
         
     def get_neighbors_by_threshold(self, matrix: list, 
                                          identifier_list: list, 
@@ -163,6 +160,7 @@ class ThresholdClusterer:
             self: *ThresholdClusterer*
                 The return value of this function is the object itself.
         """
+        self._init_clusterer()
         self._similarity_matrix = X.tolist() if isinstance(X, np.ndarray) else list(X)
         self._initial_matrix_size = len(X)
         self._matrix_row_identifier = list(range(self._initial_matrix_size))
@@ -187,6 +185,19 @@ class ThresholdClusterer:
                 break
         return self
     
+    def set_params(self, **kwargs):
+        """
+        Set clusterer parameters.
+
+        **Raises:**
+
+        `AttributeError`: Trying to set an attribute that the clusterer does not have.
+        """
+
+        for key, value in kwargs.items():
+            getattr(self, key)
+            setattr(self, key, value)
+
     @property
     def labels_(self) -> list:
         labels = []
@@ -202,3 +213,9 @@ class ThresholdClusterer:
             if not found:
                 labels.append(-1)
         return labels
+
+    def _init_clusterer(self):
+        self.clusters = []
+        self._similarity_matrix = None
+        self._matrix_row_identifier = None
+        self._initial_matrix_size = None
